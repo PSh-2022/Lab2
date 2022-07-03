@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "subj.h"
 #include "Observer.h"
 #include <chrono>
@@ -19,20 +18,6 @@ int main()
                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                test.updateObservers();
        }
-=======
-#include "FileMonitor.h"
-#include "FileObserver.h"
-#include "Observable.h"
-int main() {
-    FileMonitor monitor( "test.txt" );//содаем объект-источник для отслеживания текстового файла
-    ConsoleFileObserver observer;//создаем объект-Наблюдатель
-    monitor.registerObserver( &observer );//связываем Наблюдателя с источником
-    while( true ) {
-        //обновляем состояние Источника каждые 300 миллисекунд
-        monitor.checkFile();
-        std::this_thread::sleep_for( std::chrono::milliseconds( 300 ) );
-    }
->>>>>>> master
     return 0;
 }
 /*Команды в консоли:
