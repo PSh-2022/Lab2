@@ -1,7 +1,7 @@
 #include "Observer.h"
 #include <QTextStream>
 
-void FileObserver::Update(bool _fileExist, int _size) // обновление файла
+void FileObserver::Update(bool _fileExist, int _size) // метод обновления информации о существовании файла и его размере
 {
     QTextStream cout(stdout); // поток для вывода в консоль
     if(_fileExist) // если файл существует
