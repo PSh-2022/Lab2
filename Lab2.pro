@@ -22,4 +22,4 @@ HEADERS += \
     subj.h
 
 DISTFILES += \
-    file.txt
+    file.TXT

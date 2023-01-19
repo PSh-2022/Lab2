@@ -5,46 +5,36 @@
 #include "Observer.h"
 #include <QFile>
 #include <QString>
-/*Этот класс отслеживает всех наблюдателей и
-предоставляет возможность добавлять или удалять
-наблюдателей.
-Кроме того, именно класс отвечает за обновление
+/*класс отвечает за уведомление
 наблюдателей при любых изменениях.
-Предлагается внутри объекта Subject хранить список ссылок на объекты
+Предлагается внутри объекта ASubject хранить список ссылок на объекты
 наблюдателей,
-При этом Subject не должен вести список подписки самостоятельно.
+При этом ASubject не должен вести список подписки самостоятельно.
 Он предоставляет методы, с помощью которых наблюдатели могли бы
 добавлять или убирать себя из списка.
-Когда в Subject будет происходить важное событие, он будет
+Когда в ASubject будет происходить важное событие, он будет
 проходиться по списку подписчиков и оповещать их об этом, вызывая
 определённый метод объектов-наблюдателей.*/
-class Subject
+class ASubject
 {
+protected:
     std::vector<IObserver*> list;
 public:
-    void Attach(IObserver *product) // метод для присоединения наблюдателя
-    { list.push_back(product);//добавляем наблюдателя в list наблюдателей
+    virtual void Attach(IObserver *sbj) // метод для присоединения наблюдателя
+    { list.push_back(sbj);//добавляем наблюдателя в list наблюдателей
     };
-    void Detach(IObserver *product)//метод для отключения наблюдателя
-    { list.erase(std::remove(list.begin(), list.end(), product), list.end());
+    virtual void Detach(IObserver *sbj)//метод для отключения наблюдателя
+    { list.erase(std::remove(list.begin(), list.end(), sbj), list.end());
     };
-    void Notify(bool fileExist, int size); // метод, уведомляющий об обновлении данных
+    virtual void Notify(bool fileExist, int size, QString fileName);
 };
 /*Этот класс является реальным классом, который
-реализует Subject. Этот класс является сущностью, изменение которой
+реализует ASubject. Этот класс является сущностью, изменение которой
 повлияет на другие объекты.*/
-/*создает объекты ConcreteSubject и ConcreteObserver,а
-затем регистрирует ConcreteObserver на обновления в
-ConcreteSubject.*/
-class FileSubject : public Subject
-{
-    QFile File; //поле, содержащее файл
-
-public:
-    FileSubject(const QString& fileName): File(fileName){}; // конструктор по умолчанию
-    void updateObservers()//метод, уведомляющий об обновлении данных при работе с файлами
-    { Notify(File.exists(),File.size());//уведомляем об обновлении данных
-    };
-};
+/*создает объекты ConcretFile и ConsoleFile,а
+затем регистрирует ConsoleFile на обновления в
+ConcretFile.*/
+class ConcretFile: public ASubject
+{};
 
 #endif // SUBJ_H

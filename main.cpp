@@ -5,21 +5,16 @@
 #include <iostream>
 int main()
 {
-    QString fileName1 = "C:\\Lab2\\file1.txt", fileName = "C:\\Lab2\\file.txt";//названия файлов. fileName - существует, fileName1 - нет
-   //существующий файл
-    FileSubject test(fileName);//реализация объекта - наблюдаемого для существующего файла
-    FileObserver fo2(fileName);//реализация объекта - наблюдателя
-    test.Attach(&fo2);// присоединяем наблюдателя 2
-    test.updateObservers();// первое обновление данных в наблюдателях - файл считается измененным
+    QString fileName = "C:\\Lab2\\file.txt";
+    QFile File(fileName);
+    ConcretFile test;//реализация объекта - наблюдаемого для существующего файла
+    ConsoleFile::instance();//реализация объекта - наблюдателя
+    test.Attach(&ConsoleFile::instance());// присоединяем наблюдателя 2
+    test.Notify(File.exists(),File.size(), fileName);// первое обновление данных в наблюдателях - файл считается измененным
     while(true) // отслеживаем состояние файла с временным промежутком
        {
-               std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-               test.updateObservers();
+               std::this_thread::sleep_for(std::chrono::milliseconds(500));
+               test.Notify(File.exists(),File.size(), fileName);
        }
-    /* //несуществующий файл
-    FileSubject test(fileName1);//новый объект-файл для существующего файла
-    FileObserver fo1(fileName1);//новый наблюдатель
-    test.Attach(&fo1);// присоединяем наблюдателя 1
-    test.updateObservers();// первое обновление данных в наблюдателях - файл считается измененным*/
     return 0;
 }
